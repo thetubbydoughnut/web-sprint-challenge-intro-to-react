@@ -13,7 +13,7 @@ function Character({ character, toggleShowHomeWorld }) { // ❗ Add the props
   return (
     <div className='character-card' onClick={handleClick}>
      <h3 className='character-name'>{character.name}</h3>
-     {isHomeWorldVisible && 
+     {character.isHomeWorldVisible && 
      <p>Planet:  
       <span className='character-planet'> {character.homeWorld}</span>
      </p>

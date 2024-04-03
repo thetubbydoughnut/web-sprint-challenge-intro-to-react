@@ -26,7 +26,7 @@ function App() {
       const mergedData = people.map((prsn => {
         const homeWorldPlanet = planets.find(planet => planet.id === prsn.homeWorld);
         return { ...prsn, homeWorld: homeWorldPlanet ? homeWorldPlanet.name :
-        "Unknown"}
+        "Unknown", isHomeWorldVisible: false }
       }));
 
       console.log(mergedData)
