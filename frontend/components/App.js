@@ -25,16 +25,16 @@ function App() {
       const planets = plnts
       const mergedData = people.map((prsn) => {
         let homeWorld = "Unknown";
-        if (prsn.homeWorld !== undefined) {
-          const homeWorldPlanet = planets.find(planet => planet.id === prsn.homeWorld);
+
+        if (prsn.homeworld !== undefined) {
+          const homeWorldPlanet = planets.find(planet => planet.id === prsn.homeworld);
+          
           if (homeWorldPlanet) {
             homeWorld = homeWorldPlanet.name;
           }
         }
         return { ...prsn, homeWorld, isHomeWorldVisible: false };
       });
-      
-      console.log(mergedData)
 
       setCharacters(mergedData);
     })
@@ -49,8 +49,6 @@ function App() {
       )
       );
   }
-
-
 
   return (
     <div>
