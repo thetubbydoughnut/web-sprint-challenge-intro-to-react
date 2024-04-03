@@ -8,33 +8,43 @@ const urlPeople = 'http://localhost:9009/api/people'
 function App() {
   // ❗ Create state to hold the data from the API
   const [characters, setCharacters] = useState([])
-  const [showHomeWorld, setShowHomeWorld] = useState(true);
   // ❗ Create effects to fetch the data and put it in state
+
   useEffect(() => {
     const peopleRequest = axios.get(urlPeople)
+    .then()
+    .catch(err => console.error(err))
+
     const planetsRequest = axios.get(urlPlanets)
+    .then()
+    .catch(err => console.error(err))
 
     Promise.all([peopleRequest, planetsRequest])
     .then(([ppl, plnts]) => {
       const people = ppl.data;
       const planets = plnts.data
       const mergedData = people.map((prsn => {
-        const homePlanet = planets.find(planet => planet.id === prsn.planetId);
-        return { ...prsn, homePlanet: homePlanet ? homePlanet.name :
+        const homeWorldPlanet = planets.find(planet => planet.id === prsn.homeWorld);
+        return { ...prsn, homeWorld: homeWorldPlanet ? homeWorldPlanet.name :
         "Unknown"}
       }));
 
-      // console.log(mergedData)
+      console.log(mergedData)
 
       setCharacters(mergedData);
     })
     .catch(err => {console.error(err)});
   }, [])
 
-  
-  const toggleShowHomeWorld = () => {
-    setShowHomeWorld(!showHomeWorld);
+  const toggleShowHomeWorld = (id) => {
+    setCharacters(prevCharacters => prevCharacters.map(character => 
+      character.id === id 
+      ? {...character, isHomeWorldVisible: !character.isHomeWorldVisible} 
+      : character
+      )
+      );
   }
+
 
 
   return (
@@ -44,7 +54,7 @@ function App() {
       {/* ❗ Map over the data in state, rendering a Character at each iteration */
       characters.map((character, idx) => {
         return (
-        <Character key={idx} character={character} showHomeWorld={showHomeWorld}/>
+        <Character key={character.id} character={character} toggleShowHomeWorld={toggleShowHomeWorld}/>
         )
       })
       }
