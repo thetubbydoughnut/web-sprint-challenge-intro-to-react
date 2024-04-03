@@ -8,7 +8,7 @@ const urlPeople = 'http://localhost:9009/api/people'
 function App() {
   // ❗ Create state to hold the data from the API
   const [characters, setCharacters] = useState([])
-  // const [showHomeWorld, setShowHomeWorld] = useState(true);
+  const [showHomeWorld, setShowHomeWorld] = useState(true);
   // ❗ Create effects to fetch the data and put it in state
   useEffect(() => {
     const peopleRequest = axios.get(urlPeople)
@@ -32,9 +32,9 @@ function App() {
   }, [])
 
   
-  // const toggleShowHomeWorld = () => {
-  //   setShowHomeWorld(!showHomeWorld);
-  // }
+  const toggleShowHomeWorld = () => {
+    setShowHomeWorld(!showHomeWorld);
+  }
 
 
   return (
@@ -43,7 +43,9 @@ function App() {
       <p>See the README of the project for instructions on completing this challenge</p>
       {/* ❗ Map over the data in state, rendering a Character at each iteration */
       characters.map((character, idx) => {
-        <Character key={idx} character={character}/>
+        return (
+        <Character key={idx} character={character} showHomeWorld={showHomeWorld}/>
+        )
       })
       }
     </div>
