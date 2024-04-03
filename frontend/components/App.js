@@ -12,23 +12,28 @@ function App() {
 
   useEffect(() => {
     const peopleRequest = axios.get(urlPeople)
-    .then()
+    .then(res => res.data)
     .catch(err => console.error(err))
 
     const planetsRequest = axios.get(urlPlanets)
-    .then()
+    .then(res => res.data)
     .catch(err => console.error(err))
 
     Promise.all([peopleRequest, planetsRequest])
     .then(([ppl, plnts]) => {
-      const people = ppl.data;
-      const planets = plnts.data
-      const mergedData = people.map((prsn => {
-        const homeWorldPlanet = planets.find(planet => planet.id === prsn.homeWorld);
-        return { ...prsn, homeWorld: homeWorldPlanet ? homeWorldPlanet.name :
-        "Unknown", isHomeWorldVisible: false }
-      }));
-
+      const people = ppl;
+      const planets = plnts
+      const mergedData = people.map((prsn) => {
+        let homeWorld = "Unknown";
+        if (prsn.homeWorld !== undefined) {
+          const homeWorldPlanet = planets.find(planet => planet.id === prsn.homeWorld);
+          if (homeWorldPlanet) {
+            homeWorld = homeWorldPlanet.name;
+          }
+        }
+        return { ...prsn, homeWorld, isHomeWorldVisible: false };
+      });
+      
       console.log(mergedData)
 
       setCharacters(mergedData);
